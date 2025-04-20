@@ -16,10 +16,11 @@ export const extractTextFromImage = async (
 
     const worker = await createWorker();
 
+    // Update progress with direct number values instead of a function
+    let currentProgress = 0;
     let progressInterval = setInterval(() => {
-      setProgress(prev => {
-        return prev < 90 ? prev + 5 : prev;
-      });
+      currentProgress = Math.min(currentProgress + 5, 90);
+      setProgress(currentProgress);
     }, 300);
 
     const { data } = await worker.recognize(file);
